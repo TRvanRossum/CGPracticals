@@ -1,3 +1,4 @@
-.exe
-\Project1\Debug
-\Project2\Debug
+*.exe
+*.ilk
+*.pdb
+*.db
