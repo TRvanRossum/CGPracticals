@@ -1,0 +1,14 @@
+﻿  main.cpp
+c:\users\tim\documents\uni\cgpracticals\project3\trackball.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project3\trackball.h(117): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project3\trackball.h(140): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project3\trackball.h(172): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project3\main.cpp(312): warning C4018: '<': signed/unsigned mismatch
+c:\users\tim\documents\uni\cgpracticals\project3\main.cpp(391): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project3\main.cpp(396): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project3\main.cpp(401): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project3\main.cpp(406): warning C4305: '-=': truncation from 'double' to 'float'
+  loadppm.cpp
+  Generating Code...
+  Project3.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project3\Debug\Project3.exe
+  Project3.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project3\Debug\Project3.pdb (Partial PDB)

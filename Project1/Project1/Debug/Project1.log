@@ -1,10 +1,10 @@
 ﻿  main.cpp
-c:\users\tim\documents\visual studio 2015\projects\exercises cg\project1\project1\project1\trackball.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\tim\documents\visual studio 2015\projects\exercises cg\project1\project1\project1\trackball.h(118): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\tim\documents\visual studio 2015\projects\exercises cg\project1\project1\project1\trackball.h(141): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\tim\documents\visual studio 2015\projects\exercises cg\project1\project1\project1\trackball.h(173): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\tim\documents\visual studio 2015\projects\exercises cg\project1\project1\project1\main.cpp(28): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\tim\documents\visual studio 2015\projects\exercises cg\project1\project1\project1\main.cpp(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\tim\documents\visual studio 2015\projects\exercises cg\project1\project1\project1\main.cpp(245): warning C4305: '+=': truncation from 'double' to 'float'
-  Project1.vcxproj -> C:\Users\Tim\Documents\Visual Studio 2015\Projects\Exercises CG\Project1\Project1\Debug\Project1.exe
-  Project1.vcxproj -> C:\Users\Tim\Documents\Visual Studio 2015\Projects\Exercises CG\Project1\Project1\Debug\Project1.pdb (Partial PDB)
+c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(118): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(141): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(173): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(28): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(255): warning C4305: '+=': truncation from 'double' to 'float'
+  Project1.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project1\Debug\Project1.exe
+  Project1.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project1\Debug\Project1.pdb (Partial PDB)

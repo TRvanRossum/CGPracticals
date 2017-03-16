@@ -97,7 +97,6 @@ void drawTriangle()
 	glEnd();
 }
 
-
 void drawUnitFace()
 {
 	glColor3f(1, 1, 1);
@@ -173,8 +172,19 @@ void drawArm()
 
 void drawLight()
 {
-	glutSolidSphere(1, 1, 1);
-	glTranslatef(1, 1, 1);
+	//remember all states of the GPU
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	//deactivate the lighting state
+	glDisable(GL_LIGHTING);
+	//yellow sphere at light position
+	glColor3f(1, 1, 0);
+	glPushMatrix();
+	glTranslatef(LightPos[0], LightPos[1], LightPos[2]);
+	glutSolidSphere(0.1, 6, 6);
+	glPopMatrix();
+
+	//reset to previous state
+	glPopAttrib();
 	//1) use glutSolidSphere to draw a sphere at the light's position LightPos
 	//use glTranslatef to move it to the right location
 	//to make the light source bright, follow the drawCoordSystem function
