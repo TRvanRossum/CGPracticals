@@ -114,7 +114,11 @@ Vec3Df diffuseOnly(const Vec3Df & vertexPos, Vec3Df & normal, const Vec3Df & lig
 //E.g., for a plane, the light source below the plane cannot cast light on the top, hence, there can also not be any specularity. 
 Vec3Df phongSpecularOnly(const Vec3Df & vertexPos, Vec3Df & normal, const Vec3Df & lightPos, const Vec3Df & cameraPos, unsigned int index)
 {
-	return Vec3Df(0,1,0);
+	Vec3Df lightDir = lightPos - vertexPos;
+	Vec3Df viewDist = cameraPos - vertexPos;
+	Vec3Df inverseLightDir = vertexPos - lightPos;
+	Vec3Df reflect = inverseLightDir - 2 * Vec3Df::dotProduct(inverseLightDir, normal)*normal;
+	return Ks[index]*pow(Vec3Df::dotProduct(viewDist, reflect), Shininess[index]);
 }
 
 //Blinn-Phong Shading Specularity (http://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_shading_model)
@@ -168,7 +172,10 @@ Vec3Df userInteractionSphere(const Vec3Df & selectedPos, const Vec3Df & camPos)
 	//RETURN the new light position, defined as follows.
 	//selectedPos is a location on the mesh. Use this location to place the light source to cover the location as seen from camPos.
 	//Further, the light should be at a distance of 1.5 from the origin of the scene - in other words, located on a sphere of radius 1.5 around the origin.
-	return Vec3Df(1,1,1);
+	Vec3Df dir = camPos - selectedPos;
+	Vec3Df res = (1.5 / dir.getLength())*dir;
+
+	return res;
 }
 
 Vec3Df userInteractionShadow(const Vec3Df & selectedPos, const Vec3Df & selectedNormal, const Vec3Df & lightPos)
