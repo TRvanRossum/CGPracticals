@@ -3,8 +3,13 @@ c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(14): warni
 c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(118): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
 c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(141): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
 c:\users\tim\documents\uni\cgpracticals\project1\project1\trackball.h(173): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(28): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(255): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(31): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(31): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(332): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(335): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(338): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(341): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(344): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project1\project1\main.cpp(347): warning C4305: '-=': truncation from 'double' to 'float'
   Project1.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project1\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project1\Debug\Project1.pdb (Partial PDB)

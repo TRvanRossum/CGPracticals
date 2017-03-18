@@ -25,7 +25,10 @@ DisplayModeType DisplayMode = ARM;
 unsigned int W_fen = 800;  // screen width
 unsigned int H_fen = 800;  // screen height
 
-float LightPos[4] = {1,1,0.4,1};
+// Global variables for the light position.
+float lightX = 0.0, lightY = 0.0, lightZ = 0.0;
+
+float LightPos[4] = {1,2,0.4,1};
 std::vector<float> MeshVertices;
 std::vector<unsigned int> MeshTriangles;
 
@@ -33,7 +36,6 @@ std::vector<unsigned int> MeshTriangles;
 float globalXIncVal = 0.0;
 float handAngleRot = 0.0;
 float armAngleRot = 0.0;
-
 
 ////////// Draw Functions 
 
@@ -80,6 +82,9 @@ void drawTriangle()
 	//5) go to the function animate and increment this variable 
 	//by a small value - observe the animation.
 
+	//remember all states of the GPU
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
 	glColor3f(1,0,0);
 	glNormal3f(0,0,1);
 	glBegin(GL_TRIANGLES);
@@ -95,10 +100,16 @@ void drawTriangle()
 		glVertex3f(2 + globalXIncVal, 0, 0);
 		glVertex3f(2 + globalXIncVal, 1, 0);
 	glEnd();
+
+	//reset to previous state
+	glPopAttrib();
 }
 
 void drawUnitFace()
 {
+	//remember all states of the GPU
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
 	glColor3f(1, 1, 1);
 	glNormal3f(0, 0, 1);
 	glBegin(GL_QUADS);
@@ -111,10 +122,16 @@ void drawUnitFace()
 	//2) make sure the orientation of the vertices is positive (counterclock wise)
 	//3) What happens if the order is inversed?
 		// answer to 3: a unit quad is drawn with the filled-in side at the other side.
+
+	//reset to previous state
+	glPopAttrib();
 }
 
 void drawUnitCube()
 {
+	//remember all states of the GPU
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
 	// Placing it correctly.
 	glTranslatef(0, 1, 1);
 	// Resetting rotations.
@@ -145,10 +162,15 @@ void drawUnitCube()
 	//the top of a stack.
 	//glPopMatrix pops the top matrix on the stack
 
+	//reset to previous state
+	glPopAttrib();
 }
 
 void drawArm()
 {
+	//remember all states of the GPU
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
 	drawUnitCube();
 	glRotatef(armAngleRot, 1, 0, 0);
 	//glTranslatef(0, 0, 1);
@@ -168,6 +190,9 @@ void drawArm()
 	
 	//3 optional) make an animated snake out of these boxes 
 	//(an arm with 10 joints that moves using the animate function)
+
+	//reset to previous state
+	glPopAttrib();
 }
 
 void drawLight()
@@ -178,9 +203,20 @@ void drawLight()
 	glDisable(GL_LIGHTING);
 	//yellow sphere at light position
 	glColor3f(1, 1, 0);
+
+	// Correcting lightPos:
+	LightPos[0] += lightX;
+	LightPos[1] += lightY;
+	LightPos[2] += lightZ;
+
+	// resetting the variables:
+	lightX = 0;
+	lightY = 0;
+	lightZ = 0;
+
 	glPushMatrix();
 	glTranslatef(LightPos[0], LightPos[1], LightPos[2]);
-	glutSolidSphere(0.1, 6, 6);
+	glutSolidSphere(0.1, 20, 20);
 	glPopMatrix();
 
 	//reset to previous state
@@ -252,7 +288,7 @@ void display( )
  */
 void animate( )
 {
-	globalXIncVal += 0.005;
+	//globalXIncVal += 0.005;
 }
 
 
@@ -291,6 +327,24 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 's':
 		armAngleRot -= 0.5;
+		break;
+	case 'i':
+		lightX += 0.05;
+		break;
+	case 'I':
+		lightX -= 0.05;
+		break;
+	case 'o':
+		lightY += 0.05;
+		break;
+	case 'O':
+		lightY -= 0.05;
+		break;
+	case 'p':
+		lightZ += 0.05;
+		break;
+	case 'P':
+		lightZ -= 0.05;
 		break;
     }
 }
