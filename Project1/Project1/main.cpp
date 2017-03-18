@@ -105,7 +105,7 @@ void drawTriangle()
 	glPopAttrib();
 }
 
-void drawTriangleAdapted()
+void drawTriangleAdapted(int index1, int index2, int index3)
 {
 	//a simple example of a drawing function for a triangle
 	//1) try changing its color to red
@@ -119,7 +119,12 @@ void drawTriangleAdapted()
 	//remember all states of the GPU
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	glColor3f(1, 0, 0);
+	glColor3f(0.5, 0.5, 0.5);
+	float v1 = MeshVertices[index1];
+	float v2 = MeshVertices[index2];
+	float v3 = MeshVertices[index3];
+
+	/*glColor3f(1, 0, 0);
 	glNormal3f(0, 0, 1);
 	glBegin(GL_TRIANGLES);
 	glVertex3f(0 + globalXIncVal, 0, 0);
@@ -133,7 +138,7 @@ void drawTriangleAdapted()
 	glVertex3f(1 + globalXIncVal, 0, 0);
 	glVertex3f(2 + globalXIncVal, 0, 0);
 	glVertex3f(2 + globalXIncVal, 1, 0);
-	glEnd();
+	glEnd();*/
 
 	//reset to previous state
 	glPopAttrib();
