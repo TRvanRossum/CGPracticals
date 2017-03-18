@@ -20,7 +20,7 @@
 //chosen during execution with the keys 1-9
 enum DisplayModeType {TRIANGLE=1, FACE=2, CUBE=3, ARM=4, MESH=5,};
 
-DisplayModeType DisplayMode = ARM;
+DisplayModeType DisplayMode = MESH;
 
 unsigned int W_fen = 800;  // screen width
 unsigned int H_fen = 800;  // screen height
@@ -99,6 +99,40 @@ void drawTriangle()
 		glVertex3f(1 + globalXIncVal, 0, 0);
 		glVertex3f(2 + globalXIncVal, 0, 0);
 		glVertex3f(2 + globalXIncVal, 1, 0);
+	glEnd();
+
+	//reset to previous state
+	glPopAttrib();
+}
+
+void drawTriangleAdapted()
+{
+	//a simple example of a drawing function for a triangle
+	//1) try changing its color to red
+	//2) try changing its vertex positions
+	//3) add a second triangle in blue
+	//4) add a global variable (initialized at 0), which represents the 
+	// x-coordinate of the first vertex of each triangle
+	//5) go to the function animate and increment this variable 
+	//by a small value - observe the animation.
+
+	//remember all states of the GPU
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+	glColor3f(1, 0, 0);
+	glNormal3f(0, 0, 1);
+	glBegin(GL_TRIANGLES);
+	glVertex3f(0 + globalXIncVal, 0, 0);
+	glVertex3f(1 + globalXIncVal, 0, 0);
+	glVertex3f(1 + globalXIncVal, 1, 0);
+	glEnd();
+
+	glColor3f(0, 0, 1);
+	glNormal3f(0, 0, 1);
+	glBegin(GL_TRIANGLES);
+	glVertex3f(1 + globalXIncVal, 0, 0);
+	glVertex3f(2 + globalXIncVal, 0, 0);
+	glVertex3f(2 + globalXIncVal, 1, 0);
 	glEnd();
 
 	//reset to previous state
@@ -237,6 +271,7 @@ void drawLight()
 
 void drawMesh()
 {
+	printf("Mesh triangle size: %d", MeshTriangles.size());
 	//1) use the mesh data structure;
 	//each triangle is defined with 3 consecutive indices in the MeshTriangles table
 	//these indices correspond to vertices stored in the MeshVertices table.
@@ -249,6 +284,17 @@ void drawMesh()
 	// What do you observe with respect to the lighting?
 
 	//4) try loading your own model (export it from Blender as a Wavefront obj) and replace the provided mesh file.
+
+	/**
+	Due to the David.obj not loading, I will provide pseudocode on how to do this:
+		1. Look for the three individual vertices per triangle.
+		2. Draw these vertices. This results in a triangle.
+		3. Compute the normal per triangle. This can be done by:
+			3a. Call the three vertices v1, v2 and v3.
+			3b. Calculate distances d1 = v2 - v1, d2 = v3 - v1.
+			3c. Calculate normal: N = d1 x d2 (x is for cross product).
+		4. Repeat this for every triangle.
+	**/
 
 }
 
@@ -277,7 +323,7 @@ void display( )
 		break;
 
 	default:
-		
+		drawMesh();
 		break;
 	}
 }
