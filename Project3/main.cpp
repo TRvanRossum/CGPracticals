@@ -72,7 +72,7 @@ float LightPos[4] = {0,0,1,1};
 //Vertices and texture coordinates for the terrain/water
 //later you can increase NbVert* to produce a more detailed mesh
 //you should know the index face set (triangles defined by vertex indices) from the last practical assignment
-int NbVertX=2, NbVertY=2; 
+int NbVertX=3, NbVertY=3; 
 //vertices
 std::vector<float> SurfaceVertices3f;
 //normals
@@ -224,91 +224,98 @@ void initSurfaceMesh()
 	// Please add this computation in the function compute shadows, so that it is called when the light is moved (see function keyboard).
 	//9) The orcs are coming, go to combat()...
 	
+	float amtOfQuads = NbVertX*NbVertY;
 	//vertices with 3 coordinates
-	SurfaceVertices3f.resize(3*2*2);
+	SurfaceVertices3f.resize(3*2*2*amtOfQuads);
 	//normals with 3 coordinates
-	SurfaceNormals3f.resize(3*2*2);
+	SurfaceNormals3f.resize(3*2*2*amtOfQuads);
 	//texture coords per vertex
-	SurfaceTexCoords2f.resize(2*2*2);
+	SurfaceTexCoords2f.resize(2*2*2*amtOfQuads);
 	//triangles (2 per default)
-	SurfaceTriangles3ui.resize(3*2);
+	SurfaceTriangles3ui.resize(3*2*amtOfQuads);
 	//per vertex colors 
-	SurfaceColors3f.resize(3*2*2);
+	SurfaceColors3f.resize(3*2*2*amtOfQuads);
 
-	//define coords
-	SurfaceVertices3f[0]=0;
-	SurfaceVertices3f[1]=0;
-	SurfaceVertices3f[2]=0;
+	for (int i = 0; i < NbVertX; i++) {
+		for (int j = 0; j < NbVertY; j++) {
+			float offset = 2.0*i + j;
 
-	SurfaceVertices3f[3]=1;
-	SurfaceVertices3f[4]=0;
-	SurfaceVertices3f[5]=0;
+			//define coords
+			SurfaceVertices3f[12 * offset + 0] = 0 + i;
+			SurfaceVertices3f[12 * offset + 1] = 0 + j;
+			SurfaceVertices3f[12 * offset + 2] = cos(SurfaceVertices3f[12 * offset + 0]);
 
-	SurfaceVertices3f[6]=1;
-	SurfaceVertices3f[7]=1;
-	SurfaceVertices3f[8]=0;
+			SurfaceVertices3f[12 * offset + 3] = 1 + i;
+			SurfaceVertices3f[12 * offset + 4] = 0 + j;
+			SurfaceVertices3f[12 * offset + 5] = cos(SurfaceVertices3f[12 * offset + 3]);
 
-	SurfaceVertices3f[9]=0;
-	SurfaceVertices3f[10]=1;
-	SurfaceVertices3f[11]=0;
+			SurfaceVertices3f[12 * offset + 6] = 1 + i;
+			SurfaceVertices3f[12 * offset + 7] = 1 + j;
+			SurfaceVertices3f[12 * offset + 8] = cos(SurfaceVertices3f[12 * offset + 6]);
 
-	//define normals
-	SurfaceNormals3f[0]=0;
-	SurfaceNormals3f[1]=0;
-	SurfaceNormals3f[2]=1;
+			SurfaceVertices3f[12 * offset + 9] = 0 + i;
+			SurfaceVertices3f[12 * offset + 10] = 1 + j;
+			SurfaceVertices3f[12 * offset + 11] = cos(SurfaceVertices3f[12 * offset + 9]);
 
-	SurfaceNormals3f[3]=0;
-	SurfaceNormals3f[4]=0;
-	SurfaceNormals3f[5]=1;
+			//define normals
+			SurfaceNormals3f[12 * offset + 0] = 0;
+			SurfaceNormals3f[12 * offset + 1] = 0;
+			SurfaceNormals3f[12 * offset + 2] = 1;
 
-	SurfaceNormals3f[6]=0;
-	SurfaceNormals3f[7]=0;
-	SurfaceNormals3f[8]=1;
+			SurfaceNormals3f[12 * offset + 3] = 0;
+			SurfaceNormals3f[12 * offset + 4] = 0;
+			SurfaceNormals3f[12 * offset + 5] = 1;
 
-	SurfaceNormals3f[9]=0;
-	SurfaceNormals3f[10]=0;
-	SurfaceNormals3f[11]=1;
+			SurfaceNormals3f[12 * offset + 6] = 0;
+			SurfaceNormals3f[12 * offset + 7] = 0;
+			SurfaceNormals3f[12 * offset + 8] = 1;
 
-	//define colors
-	SurfaceColors3f[0]=0;
-	SurfaceColors3f[1]=0;
-	SurfaceColors3f[2]=1;
+			SurfaceNormals3f[12 * offset + 9] = 0;
+			SurfaceNormals3f[12 * offset + 10] = 0;
+			SurfaceNormals3f[12 * offset + 11] = 1;
 
-	SurfaceColors3f[3]=1;
-	SurfaceColors3f[4]=0;
-	SurfaceColors3f[5]=1;
+			//define colors
+			SurfaceColors3f[12 * offset + 0] = 0;
+			SurfaceColors3f[12 * offset + 1] = 0;
+			SurfaceColors3f[12 * offset + 2] = 1;
 
-	SurfaceColors3f[6]=1;
-	SurfaceColors3f[7]=1;
-	SurfaceColors3f[8]=1;
+			SurfaceColors3f[12 * offset + 3] = 1;
+			SurfaceColors3f[12 * offset + 4] = 0;
+			SurfaceColors3f[12 * offset + 5] = 1;
 
-	SurfaceColors3f[9]=0;
-	SurfaceColors3f[10]=1;
-	SurfaceColors3f[11]=1;
+			SurfaceColors3f[12 * offset + 6] = 1;
+			SurfaceColors3f[12 * offset + 7] = 1;
+			SurfaceColors3f[12 * offset + 8] = 1;
 
-	
-	//define texcoords
-	SurfaceTexCoords2f[0]=0;
-	SurfaceTexCoords2f[1]=0;
+			SurfaceColors3f[12 * offset + 9] = 0;
+			SurfaceColors3f[12 * offset + 10] = 1;
+			SurfaceColors3f[12 * offset + 11] = 1;
 
-	SurfaceTexCoords2f[2]=1;
-	SurfaceTexCoords2f[3]=0;
-	
-	SurfaceTexCoords2f[4]=1;
-	SurfaceTexCoords2f[5]=1;
 
-	SurfaceTexCoords2f[6]=0;
-	SurfaceTexCoords2f[7]=1;
+			//define texcoords
+			SurfaceTexCoords2f[8 * offset + 0] = 0 + i;
+			SurfaceTexCoords2f[8 * offset + 1] = 0 + j;
 
-	
-	//define tri indices
-	SurfaceTriangles3ui[0]=0;
-	SurfaceTriangles3ui[1]=1;
-	SurfaceTriangles3ui[2]=2;
+			SurfaceTexCoords2f[8 * offset + 2] = 1 + i;
+			SurfaceTexCoords2f[8 * offset + 3] = 0 + j;
 
-	SurfaceTriangles3ui[3]=2;
-	SurfaceTriangles3ui[4]=3;
-	SurfaceTriangles3ui[5]=0;
+			SurfaceTexCoords2f[8 * offset + 4] = 1 + i;
+			SurfaceTexCoords2f[8 * offset + 5] = 1 + j;
+
+			SurfaceTexCoords2f[8 * offset + 6] = 0 + i;
+			SurfaceTexCoords2f[8 * offset + 7] = 1 + j;
+
+
+			//define tri indices
+			SurfaceTriangles3ui[6 * offset + 0] = 0 + 4 * offset;
+			SurfaceTriangles3ui[6 * offset + 1] = 1 + 4 * offset;
+			SurfaceTriangles3ui[6 * offset + 2] = 2 + 4 * offset;
+
+			SurfaceTriangles3ui[6 * offset + 3] = 2 + 4 * offset;
+			SurfaceTriangles3ui[6 * offset + 4] = 3 + 4 * offset;
+			SurfaceTriangles3ui[6 * offset + 5] = 0 + 4 * offset;
+		}
+	}
 }
 
 void drawSurface()
