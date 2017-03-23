@@ -7,10 +7,18 @@ c:\users\tim\documents\uni\cgpracticals\project2\project2\trackball.h(119): warn
 c:\users\tim\documents\uni\cgpracticals\project2\project2\trackball.h(142): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
 c:\users\tim\documents\uni\cgpracticals\project2\project2\trackball.h(174): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
 c:\users\tim\documents\uni\cgpracticals\project2\project2\trackball.h(230): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(20): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(48): warning C4305: '-=': truncation from 'double' to 'float'
-c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(51): warning C4305: '+=': truncation from 'double' to 'float'
-c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(151): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(176): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(23): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(51): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(54): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(154): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(179): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(193): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(194): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(195): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(196): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(201): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(202): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(203): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project2\project2\yourcode.h(208): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Project2.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project2\Debug\Project2.exe
   Project2.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project2\Debug\Project2.pdb (Partial PDB)

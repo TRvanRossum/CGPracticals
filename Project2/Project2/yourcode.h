@@ -1,4 +1,7 @@
 #include <vector>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include "mesh.h"
 
 //THIS IS THE ONLY FILE YOU NEED TO MODIFY and SUBMIT!!! NOTHING ELSE!!!
@@ -17,7 +20,7 @@ std::vector<Vec3Df> Kd;//diffuse coefficient per vertex
 std::vector<Vec3Df> Ks;//specularity coefficient per vertex
 std::vector<float> Shininess;//exponent for phong and blinn-phong specularities
 float ToonDiscretize = 4.0;//number of levels in toon shading
-float ToonSpecularThreshold = 0.49;//threshold for specularity
+float ToonSpecularThreshold = 0.4;//threshold for specularity
 
 //Mesh - will be filled and loaded outside.
 Mesh MyMesh;
@@ -184,7 +187,29 @@ Vec3Df userInteractionShadow(const Vec3Df & selectedPos, const Vec3Df & selected
 	//--- in this way, the shading boundary will be exactly at this location.
 	//there are several ways to do this, choose one you deem appropriate given the current light position
 	//no panic, I will not judge what solution you chose, as long as the above condition is met.
-	return Vec3Df(1,0,1);
+
+	// Calculate orthogonal to normal.
+	// Make random vector.
+	srand (time(NULL));
+	float x = rand() % 10 + 1;
+	float y = rand() % 10 + 1;
+	float z = rand() % 10 + 1;
+
+	// Compute cross product.
+	Vec3Df ortho = Vec3Df::crossProduct(selectedNormal, Vec3Df(x, y, z));
+
+	// Cross product is orthonormal if its length is greater than 0.
+	while (ortho.getLength() <= 0.0) {
+		float x = rand() % 10 + 1;
+		float y = rand() % 10 + 1;
+		float z = rand() % 10 + 1;
+
+		ortho = Vec3Df::crossProduct(selectedNormal, Vec3Df(x, y, z));
+	}
+
+	// Place it on a radius of 1.5 around (0, 0, 0).
+	Vec3Df res = (1.5 / ortho.getLength())*ortho;
+	return res;
 }
 
 Vec3Df userInteractionSpecular(const Vec3Df & selectedPos, const Vec3Df & selectedNormal, const Vec3Df & lightPos, const Vec3Df & cameraPos)

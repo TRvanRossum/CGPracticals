@@ -88,6 +88,8 @@ std::vector<unsigned int> SurfaceTriangles3ui;
 //Declare your own global variables here:
 int myVariableThatServesNoPurpose;
 
+float animX = 0.0;
+
 
 ////////// Draw Functions 
 
@@ -123,24 +125,28 @@ void drawQuad()
 	glColor3f(1,1,1);
 	glNormal3f(0,0,1);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,  GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,  GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,  GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,  GL_LINEAR_MIPMAP_LINEAR);
 	
 	glBegin(GL_QUADS);
 
-		glTexCoord2f(0,1);
+		glTexCoord2f(0 + animX,1);
 		glVertex2f(0,0);
+		glColor3f(1, 0, 1);
 		
-		glTexCoord2f(1,1);
+		glTexCoord2f(1 + animX,1);
 		glVertex2f(1,0);
+		glColor3f(1, 1, 0);
 
-		glTexCoord2f(1,0);
+		glTexCoord2f(1 + animX,0);
 		glVertex2f(1,1);
+		glColor3f(0, 1, 1);
 
-		glTexCoord2f(0,0);
+		glTexCoord2f(0 + animX,0);
 		glVertex2f(0,1);
+		glColor3f(0, 0, 0);
 	glEnd();
 
 	glPopAttrib();
@@ -172,6 +178,7 @@ void drawLight()
  */
 void animate( )
 {
+	animX += 0.02;
 	//Congratulations, you found a bottle of water...
 }
 
@@ -326,6 +333,15 @@ void drawSurface()
 	}
 }
 
+/*void initSpecificTexture(char* fileName, int index) {
+	PPMImage image(fileName);
+	glGenTextures(1, &Texture[index]);
+	glBindTexture(GL_TEXTURE_2D, Texture[index]);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, image.sizeX, image.sizeY,
+		GL_RGB, GL_UNSIGNED_BYTE, image.data);
+	glBindTexture(GL_TEXTURE_2D, index);
+}*/
+
 //this function loads the textures in the GPU memory
 //the function is called once when the program starts
 void initTexture()
@@ -348,8 +364,24 @@ void initTexture()
 	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, image.sizeX, image.sizeY, 
 		GL_RGB, GL_UNSIGNED_BYTE, image.data);
 	glBindTexture(GL_TEXTURE_2D, 0);
-}
 
+	PPMImage image2("brick.ppm");
+	glGenTextures(1, &Texture[1]);
+	glBindTexture(GL_TEXTURE_2D, Texture[1]);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, image2.sizeX, image2.sizeY,
+		GL_RGB, GL_UNSIGNED_BYTE, image2.data);
+	glBindTexture(GL_TEXTURE_2D, 1);
+
+	PPMImage image3("sand.ppm");
+	glGenTextures(1, &Texture[2]);
+	glBindTexture(GL_TEXTURE_2D, Texture[2]);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, image3.sizeX, image3.sizeY,
+		GL_RGB, GL_UNSIGNED_BYTE, image3.data);
+	glBindTexture(GL_TEXTURE_2D, 2);
+	//initSpecificTexture("checker.ppm", 0);
+	//initSpecificTexture("brick.ppm", 1);
+	//initSpecificTexture("sand.ppm", 2);
+}
 
 
 
@@ -481,7 +513,7 @@ void display( )
 	{
 	case TEXTURED_QUAD:
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, Texture[0]);
+		glBindTexture(GL_TEXTURE_2D, Texture[1]);
 		drawQuad();		
 		glBindTexture(GL_TEXTURE_2D,0);
 		glDisable(GL_TEXTURE_2D);
