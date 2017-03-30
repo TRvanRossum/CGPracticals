@@ -27,6 +27,7 @@
     <ClInclude Include="..\loadppm.h" />
     <ClInclude Include="..\matrix.h" />
     <ClInclude Include="..\trackball.h" />
+    <ClInclude Include="..\Vec3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\brick.ppm" />

@@ -1,6 +1,7 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
+#include "Vec3D.h"
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <math.h>
@@ -67,12 +68,12 @@ unsigned int H_fen = 800;  // screen height
 std::vector<GLuint> Texture;
 
 //light position in the scene
-float LightPos[4] = {0,0,1,1};
+float LightPos[4] = {0,0,2,1};
 
 //Vertices and texture coordinates for the terrain/water
 //later you can increase NbVert* to produce a more detailed mesh
 //you should know the index face set (triangles defined by vertex indices) from the last practical assignment
-int NbVertX=3, NbVertY=3; 
+int NbVertX=2, NbVertY=2; 
 //vertices
 std::vector<float> SurfaceVertices3f;
 //normals
@@ -257,39 +258,46 @@ void initSurfaceMesh()
 			SurfaceVertices3f[12 * offset + 10] = 1 + j;
 			SurfaceVertices3f[12 * offset + 11] = cos(SurfaceVertices3f[12 * offset + 9]);
 
+			// Calculate surface normal.
+			Vec3Df v1 = Vec3Df(0 + i, 0 + j, cos(0 + i));
+			Vec3Df v2 = Vec3Df(1 + i, 0 + j, cos(1 + i));
+			Vec3Df v3 = Vec3Df(0 + i, 1 + j, cos(0 + i));
+			Vec3Df normal = Vec3Df::crossProduct(v2 - v1, v3 - v1);
+			normal.normalize();
+
 			//define normals
-			SurfaceNormals3f[12 * offset + 0] = 0;
-			SurfaceNormals3f[12 * offset + 1] = 0;
-			SurfaceNormals3f[12 * offset + 2] = 1;
+			SurfaceNormals3f[12 * offset + 0] = normal[0];
+			SurfaceNormals3f[12 * offset + 1] = normal[1];
+			SurfaceNormals3f[12 * offset + 2] = normal[2];
 
-			SurfaceNormals3f[12 * offset + 3] = 0;
-			SurfaceNormals3f[12 * offset + 4] = 0;
-			SurfaceNormals3f[12 * offset + 5] = 1;
+			SurfaceNormals3f[12 * offset + 3] = normal[0];
+			SurfaceNormals3f[12 * offset + 4] = normal[1];
+			SurfaceNormals3f[12 * offset + 5] = normal[2];
 
-			SurfaceNormals3f[12 * offset + 6] = 0;
-			SurfaceNormals3f[12 * offset + 7] = 0;
-			SurfaceNormals3f[12 * offset + 8] = 1;
+			SurfaceNormals3f[12 * offset + 6] = normal[0];
+			SurfaceNormals3f[12 * offset + 7] = normal[1];
+			SurfaceNormals3f[12 * offset + 8] = normal[2];
 
-			SurfaceNormals3f[12 * offset + 9] = 0;
-			SurfaceNormals3f[12 * offset + 10] = 0;
-			SurfaceNormals3f[12 * offset + 11] = 1;
+			SurfaceNormals3f[12 * offset + 9] = normal[0];
+			SurfaceNormals3f[12 * offset + 10] = normal[1];
+			SurfaceNormals3f[12 * offset + 11] = normal[2];
 
 			//define colors
-			SurfaceColors3f[12 * offset + 0] = 0;
-			SurfaceColors3f[12 * offset + 1] = 0;
-			SurfaceColors3f[12 * offset + 2] = 1;
+			SurfaceColors3f[12 * offset + 0] = cos(SurfaceVertices3f[12 * offset + 0]);
+			SurfaceColors3f[12 * offset + 1] = 1;
+			SurfaceColors3f[12 * offset + 2] = cos(SurfaceVertices3f[12 * offset + 0]);
 
-			SurfaceColors3f[12 * offset + 3] = 1;
-			SurfaceColors3f[12 * offset + 4] = 0;
-			SurfaceColors3f[12 * offset + 5] = 1;
+			SurfaceColors3f[12 * offset + 3] = cos(SurfaceVertices3f[12 * offset + 3]);
+			SurfaceColors3f[12 * offset + 4] = 1;
+			SurfaceColors3f[12 * offset + 5] = cos(SurfaceVertices3f[12 * offset + 3]);
 
-			SurfaceColors3f[12 * offset + 6] = 1;
+			SurfaceColors3f[12 * offset + 6] = cos(SurfaceVertices3f[12 * offset + 6]);
 			SurfaceColors3f[12 * offset + 7] = 1;
-			SurfaceColors3f[12 * offset + 8] = 1;
+			SurfaceColors3f[12 * offset + 8] = cos(SurfaceVertices3f[12 * offset + 6]);
 
-			SurfaceColors3f[12 * offset + 9] = 0;
+			SurfaceColors3f[12 * offset + 9] = cos(SurfaceVertices3f[12 * offset + 9]);
 			SurfaceColors3f[12 * offset + 10] = 1;
-			SurfaceColors3f[12 * offset + 11] = 1;
+			SurfaceColors3f[12 * offset + 11] = cos(SurfaceVertices3f[12 * offset + 9]);
 
 
 			//define texcoords

@@ -35,6 +35,9 @@
     <ClInclude Include="..\loadppm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Vec3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\checker.ppm">
