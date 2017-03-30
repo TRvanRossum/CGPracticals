@@ -73,7 +73,7 @@ float LightPos[4] = {0,0,2,1};
 //Vertices and texture coordinates for the terrain/water
 //later you can increase NbVert* to produce a more detailed mesh
 //you should know the index face set (triangles defined by vertex indices) from the last practical assignment
-int NbVertX=3, NbVertY=3; 
+int NbVertX=2, NbVertY=2; 
 //vertices
 std::vector<float> SurfaceVertices3f;
 //normals
@@ -84,6 +84,8 @@ std::vector<float> SurfaceColors3f;
 std::vector<float> SurfaceTexCoords2f;
 //triangle indices (three successive entries: n1, n2, n3 represent a triangle, each n* is an index representing a vertex.)
 std::vector<unsigned int> SurfaceTriangles3ui;
+//middle points of squares.
+std::vector<float> SurfaceMiddlePoints3f;
 
 
 //Declare your own global variables here:
@@ -172,6 +174,9 @@ void drawLight()
 	glPopAttrib();
 }
 
+void printVec3Df(Vec3Df vector) {
+	cout << vector[0] << "," << vector[1] << "," << vector[2] << "\n";
+}
 
 
 /**
@@ -183,10 +188,78 @@ void animate( )
 	//Congratulations, you found a bottle of water...
 }
 
+bool isContainedIn(Vec3Df a1, Vec3Df a2, Vec3Df a3, Vec3Df a4, Vec3Df a0) {
+	float minX = min(min(min(a1[0], a2[0]), a3[0]), a4[0]);
+	float minY = min(min(min(a1[1], a2[1]), a3[1]), a4[1]);
+	float minZ = min(min(min(a1[2], a2[2]), a3[2]), a4[2]);
+
+	float maxX = max(max(max(a1[0], a2[0]), a3[0]), a4[0]);
+	float maxY = max(max(max(a1[1], a2[1]), a3[1]), a4[1]);
+	float maxZ = max(max(max(a1[2], a2[2]), a3[2]), a4[2]);
+
+	bool XIsContained = minX <= a0[0] && a0[0] <= maxX;
+	bool YIsContained = minY <= a0[1] && a0[1] <= maxY;
+	bool ZIsContained = minZ <= a0[2] && a0[2] <= maxZ;
+
+	return XIsContained && YIsContained && ZIsContained;
+}
 
 void computeShadows()
 {
-//function to compute shadows of the terrain
+	for (int mainIndex = 0; mainIndex < SurfaceVertices3f.size(); mainIndex = mainIndex + 12) {
+		// Ray testing code (TODO)
+		bool collision = false;
+		Vec3Df intersectPoint;
+
+
+		// Test ray.
+		// TODO This tests for plane intersection if the plane is infinitely long.
+		for (int index = 0; index < SurfaceNormals3f.size(); index = index + 12) {
+			// Define necessary variables.
+			Vec3Df a1 = Vec3Df(SurfaceVertices3f[index + 0], SurfaceVertices3f[index + 1], SurfaceVertices3f[index + 2]);
+			Vec3Df a2 = Vec3Df(SurfaceVertices3f[index + 3], SurfaceVertices3f[index + 4], SurfaceVertices3f[index + 5]);
+			Vec3Df a3 = Vec3Df(SurfaceVertices3f[index + 6], SurfaceVertices3f[index + 7], SurfaceVertices3f[index + 8]);
+			Vec3Df a4 = Vec3Df(SurfaceVertices3f[index + 9], SurfaceVertices3f[index + 10], SurfaceVertices3f[index + 11]);
+			Vec3Df aMiddle = (a1 + a2 + a3 + a4) / 4;
+			Vec3Df aNormal = Vec3Df::crossProduct(a2 - a1, a4 - a1);
+			aNormal.normalize();
+			Vec3Df sunPos = Vec3Df(LightPos[0], LightPos[1], LightPos[2]);
+			Vec3Df ray = aMiddle - sunPos;
+
+			float denom = Vec3Df::dotProduct(aNormal, ray);
+			float distToOrigin = aMiddle.getLength();
+
+			// If plane is not perpendicular to ray:
+			if (denom > 0.0) {
+				float t = -(Vec3Df::dotProduct(aNormal, sunPos) + distToOrigin) / denom;
+				//cout << t << "\n";
+				if (t > 0.0) {
+					intersectPoint = sunPos + t*ray;
+					if (isContainedIn(a1, a2, a3, a4, intersectPoint)) {
+						collision = true;
+					}
+				}
+			}
+		}
+
+		if (collision) {
+			SurfaceColors3f[mainIndex + 0] = 0;
+			SurfaceColors3f[mainIndex + 1] = 0;
+			SurfaceColors3f[mainIndex + 2] = 0;
+
+			SurfaceColors3f[mainIndex + 3] = 0;
+			SurfaceColors3f[mainIndex + 4] = 0;
+			SurfaceColors3f[mainIndex + 5] = 0;
+
+			SurfaceColors3f[mainIndex + 6] = 0;
+			SurfaceColors3f[mainIndex + 7] = 0;
+			SurfaceColors3f[mainIndex + 8] = 0;
+
+			SurfaceColors3f[mainIndex + 9] = 0;
+			SurfaceColors3f[mainIndex + 10] = 0;
+			SurfaceColors3f[mainIndex + 11] = 0;
+		}
+	}
 }
 
 void initSurfaceMesh()
@@ -236,6 +309,8 @@ void initSurfaceMesh()
 	SurfaceTriangles3ui.resize(3*2*amtOfQuads);
 	//per vertex colors 
 	SurfaceColors3f.resize(3*2*2*amtOfQuads);
+	//middle points
+	SurfaceMiddlePoints3f.resize(3 * amtOfQuads);
 
 	float offset = -1.0;
 
@@ -265,6 +340,13 @@ void initSurfaceMesh()
 			Vec3Df v2 = Vec3Df(SurfaceVertices3f[12 * offset + 3], SurfaceVertices3f[12 * offset + 4], SurfaceVertices3f[12 * offset + 5]);
 			Vec3Df v3 = Vec3Df(SurfaceVertices3f[12 * offset + 6], SurfaceVertices3f[12 * offset + 7], SurfaceVertices3f[12 * offset + 8]);
 			Vec3Df v4 = Vec3Df(SurfaceVertices3f[12 * offset + 9], SurfaceVertices3f[12 * offset + 10], SurfaceVertices3f[12 * offset + 11]);
+			Vec3Df middle = (v1 + v2 + v3 + v4) / 4;
+
+			// Store surface middle points.
+			SurfaceMiddlePoints3f[3 * offset + 0] = middle[0];
+			SurfaceMiddlePoints3f[3 * offset + 1] = middle[1];
+			SurfaceMiddlePoints3f[3 * offset + 2] = middle[2];
+
 			Vec3Df normal = Vec3Df::crossProduct(v2 - v1, v4 - v1);
 			normal.normalize();
 
@@ -285,54 +367,22 @@ void initSurfaceMesh()
 			SurfaceNormals3f[12 * offset + 10] = normal[1];
 			SurfaceNormals3f[12 * offset + 11] = normal[2];
 
-			// Ray testing code (TODO)
-			bool collision = false;
+			//define colors
+			SurfaceColors3f[12 * offset + 0] = max(cos(SurfaceVertices3f[12 * offset + 0]), 0);
+			SurfaceColors3f[12 * offset + 1] = 1;
+			SurfaceColors3f[12 * offset + 2] = max(cos(SurfaceVertices3f[12 * offset + 0]), 0);
 
-			// Vector from light source to middle of square.
-			Vec3Df middle = (v1 + v2 + v3 + v4) / 4;
-			Vec3Df sunPos = Vec3Df(LightPos[0], LightPos[1], LightPos[2]);
-			Vec3Df ray = middle - sunPos;
+			SurfaceColors3f[12 * offset + 3] = max(cos(SurfaceVertices3f[12 * offset + 3]), 0);
+			SurfaceColors3f[12 * offset + 4] = 1;
+			SurfaceColors3f[12 * offset + 5] = max(cos(SurfaceVertices3f[12 * offset + 3]), 0);
 
-			// Test ray.
+			SurfaceColors3f[12 * offset + 6] = max(cos(SurfaceVertices3f[12 * offset + 6]), 0);
+			SurfaceColors3f[12 * offset + 7] = 1;
+			SurfaceColors3f[12 * offset + 8] = max(cos(SurfaceVertices3f[12 * offset + 6]), 0);
 
-
-			// This condition will be changed once I figure out how to implement ray testing.
-			if (!collision) {
-				//define colors
-				SurfaceColors3f[12 * offset + 0] = max(cos(SurfaceVertices3f[12 * offset + 0]), 0);
-				SurfaceColors3f[12 * offset + 1] = 1;
-				SurfaceColors3f[12 * offset + 2] = max(cos(SurfaceVertices3f[12 * offset + 0]), 0);
-
-				SurfaceColors3f[12 * offset + 3] = max(cos(SurfaceVertices3f[12 * offset + 3]), 0);
-				SurfaceColors3f[12 * offset + 4] = 1;
-				SurfaceColors3f[12 * offset + 5] = max(cos(SurfaceVertices3f[12 * offset + 3]), 0);
-
-				SurfaceColors3f[12 * offset + 6] = max(cos(SurfaceVertices3f[12 * offset + 6]), 0);
-				SurfaceColors3f[12 * offset + 7] = 1;
-				SurfaceColors3f[12 * offset + 8] = max(cos(SurfaceVertices3f[12 * offset + 6]), 0);
-
-				SurfaceColors3f[12 * offset + 9] = max(cos(SurfaceVertices3f[12 * offset + 9]), 0);
-				SurfaceColors3f[12 * offset + 10] = 1;
-				SurfaceColors3f[12 * offset + 11] = max(cos(SurfaceVertices3f[12 * offset + 9]), 0);
-			}
-			else {
-				//define colors
-				SurfaceColors3f[12 * offset + 0] = 0;
-				SurfaceColors3f[12 * offset + 1] = 0;
-				SurfaceColors3f[12 * offset + 2] = 0;
-
-				SurfaceColors3f[12 * offset + 3] = 0;
-				SurfaceColors3f[12 * offset + 4] = 0;
-				SurfaceColors3f[12 * offset + 5] = 0;
-
-				SurfaceColors3f[12 * offset + 6] = 0;
-				SurfaceColors3f[12 * offset + 7] = 0;
-				SurfaceColors3f[12 * offset + 8] = 0;
-
-				SurfaceColors3f[12 * offset + 9] = 0;
-				SurfaceColors3f[12 * offset + 10] = 0;
-				SurfaceColors3f[12 * offset + 11] = 0;
-			}
+			SurfaceColors3f[12 * offset + 9] = max(cos(SurfaceVertices3f[12 * offset + 9]), 0);
+			SurfaceColors3f[12 * offset + 10] = 1;
+			SurfaceColors3f[12 * offset + 11] = max(cos(SurfaceVertices3f[12 * offset + 9]), 0);
 
 			//define texcoords
 			SurfaceTexCoords2f[8 * offset + 0] = 0 + i;
