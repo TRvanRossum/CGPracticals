@@ -73,7 +73,7 @@ float LightPos[4] = {0,0,2,1};
 //Vertices and texture coordinates for the terrain/water
 //later you can increase NbVert* to produce a more detailed mesh
 //you should know the index face set (triangles defined by vertex indices) from the last practical assignment
-int NbVertX=2, NbVertY=2; 
+int NbVertX=6, NbVertY=6; 
 //vertices
 std::vector<float> SurfaceVertices3f;
 //normals
@@ -211,6 +211,14 @@ void computeShadows()
 		bool collision = false;
 		Vec3Df intersectPoint;
 
+		// Define necessary variables.
+		Vec3Df main1 = Vec3Df(SurfaceVertices3f[mainIndex + 0], SurfaceVertices3f[mainIndex + 1], SurfaceVertices3f[mainIndex + 2]);
+		Vec3Df main2 = Vec3Df(SurfaceVertices3f[mainIndex + 3], SurfaceVertices3f[mainIndex + 4], SurfaceVertices3f[mainIndex + 5]);
+		Vec3Df main3 = Vec3Df(SurfaceVertices3f[mainIndex + 6], SurfaceVertices3f[mainIndex + 7], SurfaceVertices3f[mainIndex + 8]);
+		Vec3Df main4 = Vec3Df(SurfaceVertices3f[mainIndex + 9], SurfaceVertices3f[mainIndex + 10], SurfaceVertices3f[mainIndex + 11]);
+		Vec3Df mainMiddle = (main1 + main2 + main3 + main4) / 4;
+		Vec3Df sunPos = Vec3Df(LightPos[0], LightPos[1], LightPos[2]);
+		Vec3Df ray = mainMiddle - sunPos;
 
 		// Test ray.
 		// TODO This tests for plane intersection if the plane is infinitely long.
@@ -223,18 +231,19 @@ void computeShadows()
 			Vec3Df aMiddle = (a1 + a2 + a3 + a4) / 4;
 			Vec3Df aNormal = Vec3Df::crossProduct(a2 - a1, a4 - a1);
 			aNormal.normalize();
-			Vec3Df sunPos = Vec3Df(LightPos[0], LightPos[1], LightPos[2]);
-			Vec3Df ray = aMiddle - sunPos;
 
+			//printVec3Df(ray);
+			//printVec3Df(aNormal);
 			float denom = Vec3Df::dotProduct(aNormal, ray);
+			//cout << "Denom: " << denom << "\n";
 			float distToOrigin = aMiddle.getLength();
 
 			// If plane is not perpendicular to ray:
 			if (denom > 0.0) {
-				float t = -(Vec3Df::dotProduct(aNormal, sunPos) + distToOrigin) / denom;
-				//cout << t << "\n";
-				if (t > 0.0) {
-					intersectPoint = sunPos + t*ray;
+				float d = (Vec3Df::dotProduct(aMiddle - sunPos, aNormal)) / denom;
+				//cout << d << "\n";
+				if (d > 0.0 && d < 1.0) {
+					intersectPoint = sunPos + (d*ray);
 					if (isContainedIn(a1, a2, a3, a4, intersectPoint)) {
 						collision = true;
 					}
@@ -258,6 +267,24 @@ void computeShadows()
 			SurfaceColors3f[mainIndex + 9] = 0;
 			SurfaceColors3f[mainIndex + 10] = 0;
 			SurfaceColors3f[mainIndex + 11] = 0;
+		}
+		else {
+			//define colors
+			SurfaceColors3f[mainIndex + 0] = max(cos(SurfaceVertices3f[mainIndex + 0]), 0);
+			SurfaceColors3f[mainIndex + 1] = 1;
+			SurfaceColors3f[mainIndex + 2] = max(cos(SurfaceVertices3f[mainIndex + 0]), 0);
+
+			SurfaceColors3f[mainIndex + 3] = max(cos(SurfaceVertices3f[mainIndex + 3]), 0);
+			SurfaceColors3f[mainIndex + 4] = 1;
+			SurfaceColors3f[mainIndex + 5] = max(cos(SurfaceVertices3f[mainIndex + 3]), 0);
+
+			SurfaceColors3f[mainIndex + 6] = max(cos(SurfaceVertices3f[mainIndex + 6]), 0);
+			SurfaceColors3f[mainIndex + 7] = 1;
+			SurfaceColors3f[mainIndex + 8] = max(cos(SurfaceVertices3f[mainIndex + 6]), 0);
+
+			SurfaceColors3f[mainIndex + 9] = max(cos(SurfaceVertices3f[mainIndex + 9]), 0);
+			SurfaceColors3f[mainIndex + 10] = 1;
+			SurfaceColors3f[mainIndex + 11] = max(cos(SurfaceVertices3f[mainIndex + 9]), 0);
 		}
 	}
 }
