@@ -206,28 +206,24 @@ bool isContainedIn(Vec3Df a1, Vec3Df a2, Vec3Df a3, Vec3Df a4, Vec3Df a0) {
 
 void computeShadows()
 {
-	for (int mainIndex = 0; mainIndex < SurfaceVertices3f.size(); mainIndex = mainIndex + 12) {
+	for (int mainIndex = 0; mainIndex < NbVertX*NbVertY; mainIndex++) {
 		// Ray testing code (TODO)
 		bool collision = false;
 		Vec3Df intersectPoint;
 
 		// Define necessary variables.
-		Vec3Df main1 = Vec3Df(SurfaceVertices3f[mainIndex + 0], SurfaceVertices3f[mainIndex + 1], SurfaceVertices3f[mainIndex + 2]);
-		Vec3Df main2 = Vec3Df(SurfaceVertices3f[mainIndex + 3], SurfaceVertices3f[mainIndex + 4], SurfaceVertices3f[mainIndex + 5]);
-		Vec3Df main3 = Vec3Df(SurfaceVertices3f[mainIndex + 6], SurfaceVertices3f[mainIndex + 7], SurfaceVertices3f[mainIndex + 8]);
-		Vec3Df main4 = Vec3Df(SurfaceVertices3f[mainIndex + 9], SurfaceVertices3f[mainIndex + 10], SurfaceVertices3f[mainIndex + 11]);
-		Vec3Df mainMiddle = (main1 + main2 + main3 + main4) / 4;
+		Vec3Df mainMiddle = Vec3Df(SurfaceMiddlePoints3f[3 * mainIndex + 0], SurfaceMiddlePoints3f[3 * mainIndex + 1], SurfaceMiddlePoints3f[3 * mainIndex + 2]);
 		Vec3Df sunPos = Vec3Df(LightPos[0], LightPos[1], LightPos[2]);
 		Vec3Df ray = mainMiddle - sunPos;
 
 		// Test ray.
 		// TODO This tests for plane intersection if the plane is infinitely long.
-		for (int index = 0; index < SurfaceNormals3f.size(); index = index + 12) {
+		for (int index = 0; index < NbVertX*NbVertY; index++) {
 			// Define necessary variables.
-			Vec3Df a1 = Vec3Df(SurfaceVertices3f[index + 0], SurfaceVertices3f[index + 1], SurfaceVertices3f[index + 2]);
-			Vec3Df a2 = Vec3Df(SurfaceVertices3f[index + 3], SurfaceVertices3f[index + 4], SurfaceVertices3f[index + 5]);
-			Vec3Df a3 = Vec3Df(SurfaceVertices3f[index + 6], SurfaceVertices3f[index + 7], SurfaceVertices3f[index + 8]);
-			Vec3Df a4 = Vec3Df(SurfaceVertices3f[index + 9], SurfaceVertices3f[index + 10], SurfaceVertices3f[index + 11]);
+			Vec3Df a1 = Vec3Df(SurfaceVertices3f[12 * index + 0], SurfaceVertices3f[12 * index + 1], SurfaceVertices3f[12 * index + 2]);
+			Vec3Df a2 = Vec3Df(SurfaceVertices3f[12 * index + 3], SurfaceVertices3f[12 * index + 4], SurfaceVertices3f[12 * index + 5]);
+			Vec3Df a3 = Vec3Df(SurfaceVertices3f[12 * index + 6], SurfaceVertices3f[12 * index + 7], SurfaceVertices3f[12 * index + 8]);
+			Vec3Df a4 = Vec3Df(SurfaceVertices3f[12 * index + 9], SurfaceVertices3f[12 * index + 10], SurfaceVertices3f[12 * index + 11]);
 			Vec3Df aMiddle = (a1 + a2 + a3 + a4) / 4;
 			Vec3Df aNormal = Vec3Df::crossProduct(a2 - a1, a4 - a1);
 			aNormal.normalize();
@@ -252,39 +248,39 @@ void computeShadows()
 		}
 
 		if (collision) {
-			SurfaceColors3f[mainIndex + 0] = 0;
-			SurfaceColors3f[mainIndex + 1] = 0;
-			SurfaceColors3f[mainIndex + 2] = 0;
+			SurfaceColors3f[12 * mainIndex + 0] = 0;
+			SurfaceColors3f[12 * mainIndex + 1] = 0;
+			SurfaceColors3f[12 * mainIndex + 2] = 0;
 
-			SurfaceColors3f[mainIndex + 3] = 0;
-			SurfaceColors3f[mainIndex + 4] = 0;
-			SurfaceColors3f[mainIndex + 5] = 0;
+			SurfaceColors3f[12 * mainIndex + 3] = 0;
+			SurfaceColors3f[12 * mainIndex + 4] = 0;
+			SurfaceColors3f[12 * mainIndex + 5] = 0;
 
-			SurfaceColors3f[mainIndex + 6] = 0;
-			SurfaceColors3f[mainIndex + 7] = 0;
-			SurfaceColors3f[mainIndex + 8] = 0;
+			SurfaceColors3f[12 * mainIndex + 6] = 0;
+			SurfaceColors3f[12 * mainIndex + 7] = 0;
+			SurfaceColors3f[12 * mainIndex + 8] = 0;
 
-			SurfaceColors3f[mainIndex + 9] = 0;
-			SurfaceColors3f[mainIndex + 10] = 0;
-			SurfaceColors3f[mainIndex + 11] = 0;
+			SurfaceColors3f[12 * mainIndex + 9] = 0;
+			SurfaceColors3f[12 * mainIndex + 10] = 0;
+			SurfaceColors3f[12 * mainIndex + 11] = 0;
 		}
 		else {
 			//define colors
-			SurfaceColors3f[mainIndex + 0] = max(cos(SurfaceVertices3f[mainIndex + 0]), 0);
-			SurfaceColors3f[mainIndex + 1] = 1;
-			SurfaceColors3f[mainIndex + 2] = max(cos(SurfaceVertices3f[mainIndex + 0]), 0);
+			SurfaceColors3f[12 * mainIndex + 0] = max(cos(SurfaceVertices3f[12 * mainIndex + 0]), 0);
+			SurfaceColors3f[12 * mainIndex + 1] = 1;
+			SurfaceColors3f[12 * mainIndex + 2] = max(cos(SurfaceVertices3f[12 * mainIndex + 0]), 0);
 
-			SurfaceColors3f[mainIndex + 3] = max(cos(SurfaceVertices3f[mainIndex + 3]), 0);
-			SurfaceColors3f[mainIndex + 4] = 1;
-			SurfaceColors3f[mainIndex + 5] = max(cos(SurfaceVertices3f[mainIndex + 3]), 0);
+			SurfaceColors3f[12 * mainIndex + 3] = max(cos(SurfaceVertices3f[12 * mainIndex + 3]), 0);
+			SurfaceColors3f[12 * mainIndex + 4] = 1;
+			SurfaceColors3f[12 * mainIndex + 5] = max(cos(SurfaceVertices3f[12 * mainIndex + 3]), 0);
 
-			SurfaceColors3f[mainIndex + 6] = max(cos(SurfaceVertices3f[mainIndex + 6]), 0);
-			SurfaceColors3f[mainIndex + 7] = 1;
-			SurfaceColors3f[mainIndex + 8] = max(cos(SurfaceVertices3f[mainIndex + 6]), 0);
+			SurfaceColors3f[12 * mainIndex + 6] = max(cos(SurfaceVertices3f[12 * mainIndex + 6]), 0);
+			SurfaceColors3f[12 * mainIndex + 7] = 1;
+			SurfaceColors3f[12 * mainIndex + 8] = max(cos(SurfaceVertices3f[12 * mainIndex + 6]), 0);
 
-			SurfaceColors3f[mainIndex + 9] = max(cos(SurfaceVertices3f[mainIndex + 9]), 0);
-			SurfaceColors3f[mainIndex + 10] = 1;
-			SurfaceColors3f[mainIndex + 11] = max(cos(SurfaceVertices3f[mainIndex + 9]), 0);
+			SurfaceColors3f[12 * mainIndex + 9] = max(cos(SurfaceVertices3f[12 * mainIndex + 9]), 0);
+			SurfaceColors3f[12 * mainIndex + 10] = 1;
+			SurfaceColors3f[12 * mainIndex + 11] = max(cos(SurfaceVertices3f[12 * mainIndex + 9]), 0);
 		}
 	}
 }
