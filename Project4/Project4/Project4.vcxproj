@@ -110,6 +110,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\grid.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\mesh.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\grid.h" />
+    <ClInclude Include="..\matrix.h" />
+    <ClInclude Include="..\mesh.h" />
+    <ClInclude Include="..\traqueboule.h" />
+    <ClInclude Include="..\Vec3D.h" />
+    <ClInclude Include="..\Vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
