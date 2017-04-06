@@ -52,13 +52,32 @@ void Grid::drawCell(const Vec3Df & Min,const Vec3Df& Max) {
 }
 
 void Grid::drawGrid(){
+
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glLineWidth(1.0f);
     glColor3f(1.0f,1.0f,0.0f);
     glDisable(GL_LIGHTING);
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
-    //Complete this function by calling draw cell several times.
+	float floatR = (float) r;
+
+	for (float x = 0.0; x < r; x++) {
+		for (float y = 0.0; y < r; y++) {
+			for (float z = 0.0; z < r; z++) {
+				Vec3Df beginPoint = origin;
+				beginPoint[0] += sizeX * (x / floatR);
+				beginPoint[1] += sizeY * (y / floatR);
+				beginPoint[2] += sizeZ * (z / floatR);
+
+				Vec3Df endPoint = origin;
+				endPoint[0] += sizeX * ((x + 1.0) / floatR);
+				endPoint[1] += sizeY * ((y + 1.0) / floatR);
+				endPoint[2] += sizeZ * ((z + 1.0) / floatR);
+
+				drawCell(beginPoint, endPoint);
+			}
+		}
+	}
 
     glPopAttrib();
 }

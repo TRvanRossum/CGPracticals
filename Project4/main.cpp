@@ -40,7 +40,7 @@ void init(const char * fileName){
     mesh.loadMesh(fileName);
 	//attention! while loadMesh calls compute bounding box, it is not yet implemented!
 
-	simplifyMesh(0);
+	simplifyMesh(1);
 	
 }
 
@@ -48,6 +48,8 @@ void init(const char * fileName){
 void drawBoundingCube(Vec3Df origin, float axisX, float axisY, float axisZ) {
 	
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+	glLineWidth(1.0f);
 
 	glBegin(GL_LINES);
 		glColor3f(1, 1, 1);
@@ -111,8 +113,8 @@ void simplifyMesh(unsigned int r){
  //It should be considered a guideline, NOT the solution.
  //Also, use your graphics knowledge to draw for debugging! (e.g., draw the bounding box, the grid etc.)  
 	mesh.computeBoundingCube();
-	drawBoundingCube(mesh.bbOrigin, mesh.bbEdgeSizeX, mesh.bbEdgeSizeY, mesh.bbEdgeSizeZ);
- //   grid = Grid(mesh.bbMinPos, mesh.bbEdgeSize, r );
+	grid = Grid(mesh.bbOrigin, mesh.bbEdgeSizeX, mesh.bbEdgeSizeY, mesh.bbEdgeSizeZ, r);
+	grid.drawGrid();
  
  //work with a local reference on the vertices and triangles
  //   const vector<Vertex> & vertices = mesh.vertices;
