@@ -1,0 +1,13 @@
+﻿  mesh.cpp
+c:\users\tim\documents\uni\cgpracticals\project4\mesh.cpp(74): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project4\mesh.cpp(93): warning C4018: '<': signed/unsigned mismatch
+c:\users\tim\documents\uni\cgpracticals\project4\mesh.cpp(107): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+c:\users\tim\documents\uni\cgpracticals\project4\traqueboule.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\tim\documents\uni\cgpracticals\project4\traqueboule.h(102): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project4\traqueboule.h(125): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\tim\documents\uni\cgpracticals\project4\traqueboule.h(156): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+  grid.cpp
+  Generating Code...
+  Project4.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project4\Debug\Project4.exe
+  Project4.vcxproj -> C:\Users\Tim\Documents\Uni\CGPracticals\Project4\Debug\Project4.pdb (Partial PDB)
