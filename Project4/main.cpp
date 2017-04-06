@@ -31,15 +31,76 @@ unsigned int W_fen = 800;  // window width
 unsigned int H_fen = 800;  // window height
 
 
+void simplifyMesh(unsigned int r);
+
 /************************************************************
  * Initialization function; here we load the mesh and you can add additional precomputations
  ************************************************************/
 void init(const char * fileName){
     mesh.loadMesh(fileName);
 	//attention! while loadMesh calls compute bounding box, it is not yet implemented!
+
+	simplifyMesh(0);
 	
 }
 
+
+void drawBoundingCube(Vec3Df origin, float axisX, float axisY, float axisZ) {
+	
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+	glBegin(GL_LINES);
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1], origin[2]);
+		glVertex3f(origin[0] + axisX, origin[1], origin[2]);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1], origin[2]);
+		glVertex3f(origin[0], origin[1] + axisY, origin[2]);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1], origin[2]);
+		glVertex3f(origin[0], origin[1], origin[2] + axisZ);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0] + axisX, origin[1], origin[2]);
+		glVertex3f(origin[0] + axisX, origin[1] + axisY, origin[2]);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0] + axisX, origin[1], origin[2]);
+		glVertex3f(origin[0] + axisX, origin[1], origin[2] + axisZ);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1] + axisY, origin[2]);
+		glVertex3f(origin[0] + axisX, origin[1] + axisY, origin[2]);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1] + axisY, origin[2]);
+		glVertex3f(origin[0], origin[1] + axisY, origin[2] + axisZ);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1], origin[2] + axisZ);
+		glVertex3f(origin[0], origin[1] + axisY, origin[2] + axisZ);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1], origin[2] + axisZ);
+		glVertex3f(origin[0] + axisX, origin[1], origin[2] + axisZ);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0] + axisX, origin[1] + axisY, origin[2]);
+		glVertex3f(origin[0] + axisX, origin[1] + axisY, origin[2] + axisZ);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0] + axisX, origin[1], origin[2] + axisZ);
+		glVertex3f(origin[0] + axisX, origin[1] + axisY, origin[2] + axisZ);
+
+		glColor3f(1, 1, 1);
+		glVertex3f(origin[0], origin[1] + axisY, origin[2] + axisZ);
+		glVertex3f(origin[0] + axisX, origin[1] + axisY, origin[2] + axisZ);
+	glEnd();
+
+	glPopAttrib();
+}
 
 /************************************************************
  * Simplification Function !! TO BE COMPLETED
@@ -49,7 +110,8 @@ void simplifyMesh(unsigned int r){
  //Be thorough and check all functions, as some of the calls below might NOT directly work and need to be written by you.
  //It should be considered a guideline, NOT the solution.
  //Also, use your graphics knowledge to draw for debugging! (e.g., draw the bounding box, the grid etc.)  
-
+	mesh.computeBoundingCube();
+	drawBoundingCube(mesh.bbOrigin, mesh.bbEdgeSizeX, mesh.bbEdgeSizeY, mesh.bbEdgeSizeZ);
  //   grid = Grid(mesh.bbMinPos, mesh.bbEdgeSize, r );
  
  //work with a local reference on the vertices and triangles

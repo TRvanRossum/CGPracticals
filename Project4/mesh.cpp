@@ -32,11 +32,17 @@ void Mesh::computeBoundingCube () {
 	}
 	
 	//set boundind box origin to minimum corner
-	bbOrigin=minPoint;
+	//subtract also a small part.
+	bbOrigin=minPoint-Vec3Df(0.1, 0.1, 0.1);
 
 	//compute extent of the mesh
 	maxPoint-=minPoint;
 	bbEdgeSize=max(max(maxPoint[0],maxPoint[1]),maxPoint[2]);
+
+	//compute extent per axis.
+	bbEdgeSizeX = maxPoint[0] + 0.2;
+	bbEdgeSizeY = maxPoint[1] + 0.2;
+	bbEdgeSizeZ = maxPoint[2] + 0.2;
 }
 
 
