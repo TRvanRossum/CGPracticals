@@ -4,6 +4,14 @@
 #endif
 #include <GL/glut.h>
 
+bool isContainedIn(Vec3Df point, Vec3Df begin, Vec3Df end) {
+	bool XIsContained = begin[0] <= point[0] && point[0] < end[0];
+	bool YIsContained = begin[1] <= point[1] && point[1] < end[1];
+	bool ZIsContained = begin[2] <= point[2] && point[2] < end[2];
+
+	return XIsContained && YIsContained && ZIsContained;
+}
+
 int Grid::isContainedAt(const Vec3Df & pos){
     //returns index that contains the position
     int indice = 0;

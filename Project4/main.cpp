@@ -108,34 +108,34 @@ void drawBoundingCube(Vec3Df origin, float axisX, float axisY, float axisZ) {
  * Simplification Function !! TO BE COMPLETED
  ************************************************************/
 void simplifyMesh(unsigned int r){
- //Create a grid that covers the bounding box of the mesh. 
- //Be thorough and check all functions, as some of the calls below might NOT directly work and need to be written by you.
- //It should be considered a guideline, NOT the solution.
- //Also, use your graphics knowledge to draw for debugging! (e.g., draw the bounding box, the grid etc.)  
+	//Create a grid that covers the bounding box of the mesh. 
+	//Be thorough and check all functions, as some of the calls below might NOT directly work and need to be written by you.
+	//It should be considered a guideline, NOT the solution.
+	//Also, use your graphics knowledge to draw for debugging! (e.g., draw the bounding box, the grid etc.)  
 	mesh.computeBoundingCube();
 	grid = Grid(mesh.bbOrigin, mesh.bbEdgeSizeX, mesh.bbEdgeSizeY, mesh.bbEdgeSizeZ, r);
 	grid.drawGrid();
  
- //work with a local reference on the vertices and triangles
- //   const vector<Vertex> & vertices = mesh.vertices;
- //   const vector<Triangle> & triangles = mesh.triangles;
+	//work with a local reference on the vertices and triangles
+    const vector<Vertex> & vertices = mesh.vertices;
+    const vector<Triangle> & triangles = mesh.triangles;
 
- //   //Put all the vertices in the grid
- //   grid.putVertices(vertices);
+	//Put all the vertices in the grid
+    grid.putVertices(vertices);
 
- //	  //calculate a representative vertex for each grid cell
+ 	//calculate a representative vertex for each grid cell
  //   grid.computeRepresentatives();
 
  // //Create a new list of vertices for the simplified model
  // //What is the effect of the code below?
- // std::map<unsigned int, unsigned int > newIndexRemapping;
- // vector<Vertex> simplifiedVertices;
+ //   std::map<unsigned int, unsigned int > newIndexRemapping;
+ //   vector<Vertex> simplifiedVertices;
 
  //   int count = 0;
  //   for(RepresentativeList::iterator it = grid.representatives.begin() ; it != grid.representatives.end (); it++, count++){
- //       newIndexRemapping[(*it).first] = count;
- //       simplifiedVertices.push_back((*it).second);
- //   }
+//        newIndexRemapping[(*it).first] = count;
+//        simplifiedVertices.push_back((*it).second);
+//    }
 
 
  // //Create a new list of triangles
