@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "loadppm.h"
+#include "enemyRenderer.h"
 
 
 
@@ -52,14 +53,6 @@
 
 
 //////Predefined global variables
-
-//Use the enum values to define different rendering modes 
-//The mode is used by the function display and the mode is 
-//chosen during execution with the keys 1-9
-enum DisplayModeType {SURFACE=1};
-
-DisplayModeType DisplayMode = SURFACE;
-
 unsigned int W_fen = 800;  // screen width
 unsigned int H_fen = 800;  // screen height
 
@@ -89,8 +82,6 @@ std::vector<float> SurfaceMiddlePoints3f;
 
 
 //Declare your own global variables here:
-int myVariableThatServesNoPurpose;
-
 float animX = 0.0;
 float time = 0.0;
 float rotateVal = 0.0;
@@ -437,13 +428,12 @@ void initSurfaceMesh(float offsetx, float offsety, float offsetz)
 	}
 }
 
-void drawSurface(float var)
+void drawSurface()
 {
 //This function is complete (!) and will draw the data in the Surface**** arrays.
 //You do not need to modify this one.
 
 	// Make big matrix for rotation around z-axis
-	GLdouble m[] = { sin(rotateVal),cos(rotateVal),0,0, cos(rotateVal),-sin(rotateVal),0,0, 0,0,1,0, 0,0,0,1 };
 
 	for (int t=0; t<SurfaceTriangles3ui.size();t+=3)
 	{
@@ -458,26 +448,23 @@ void drawSurface(float var)
 			glColor3fv(&(SurfaceColors3f[3*vIndex]));
 			SurfaceVertices3f[3*vIndex + 2] = 0.05*cos(2*(SurfaceVertices3f[3*vIndex] + SurfaceVertices3f[3*vIndex + 1] + time));
 			glVertex3fv(&(SurfaceVertices3f[3*vIndex]));
-			glTranslatef(-SurfaceVertices3f[3 * vIndex], -SurfaceVertices3f[3 * vIndex + 1], -SurfaceVertices3f[3 * vIndex + 2]);
-			glRotatef(rotateVal, 0, 0, 1);
-			GLdouble oldPos[] = {SurfaceVertices3f[3 * vIndex], SurfaceVertices3f[3 * vIndex + 1], SurfaceVertices3f[3 * vIndex + 2], 1};
-			GLdouble newPos[] = {0, 0, 0, 1};
-			project(m, oldPos, newPos);
-			glTranslatef(newPos[0], newPos[1], newPos[2]);
 		}
+
 
 		glEnd();
 	}
 }
 
-/*void initSpecificTexture(char* fileName, int index) {
-	PPMImage image(fileName);
-	glGenTextures(1, &Texture[index]);
-	glBindTexture(GL_TEXTURE_2D, Texture[index]);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, image.sizeX, image.sizeY,
-		GL_RGB, GL_UNSIGNED_BYTE, image.data);
-	glBindTexture(GL_TEXTURE_2D, index);
-}*/
+void drawScene() {
+	glPushMatrix();
+		drawSurface();
+		Vec3Df pos = Vec3Df(2, 2, 0.5);
+		drawEnemy(pos);
+		pos = Vec3Df(0, 0, 0.5 + 0.05*cos(2*(time)));
+		drawBoat(pos);
+		glRotatef(45 + time, 0, 0, 1);
+	glPopMatrix();
+}
 
 //this function loads the textures in the GPU memory
 //the function is called once when the program starts
@@ -655,7 +642,7 @@ void display()
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, Texture[2]);
-	drawSurface(0);
+	drawScene();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 }

@@ -20,7 +20,7 @@
 //chosen during execution with the keys 1-9
 enum DisplayModeType {TRIANGLE=1, FACE=2, CUBE=3, ARM=4, MESH=5,};
 
-DisplayModeType DisplayMode = MESH;
+DisplayModeType DisplayMode = CUBE;
 
 unsigned int W_fen = 800;  // screen width
 unsigned int H_fen = 800;  // screen height
@@ -171,6 +171,13 @@ void drawUnitCube()
 	//remember all states of the GPU
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	glPushMatrix();
+	/*drawUnitFace();
+	glTranslatef(0, 1, 1);
+	glRotatef(90, 0, 1, 0);
+	glRotatef(90, 1, 0, 0);
+	drawUnitFace();*/
+
 	// Placing it correctly.
 	glTranslatef(0, 1, 1);
 	// Resetting rotations.
@@ -200,6 +207,8 @@ void drawUnitCube()
 	//glPushMatrix stores the current matrix and puts a copy on 
 	//the top of a stack.
 	//glPopMatrix pops the top matrix on the stack
+
+	glPopMatrix();
 
 	//reset to previous state
 	glPopAttrib();
