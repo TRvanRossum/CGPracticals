@@ -171,13 +171,46 @@ void drawUnitCube()
 	//remember all states of the GPU
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	glPushMatrix();
-	/*drawUnitFace();
-	glTranslatef(0, 1, 1);
-	glRotatef(90, 0, 1, 0);
-	glRotatef(90, 1, 0, 0);
-	drawUnitFace();*/
+	drawUnitFace();
 
+	glPushMatrix();
+	glTranslatef(1, 0, 0);
+	glRotatef(90, 0, 1, 0);
+	drawUnitFace();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, -1);
+	glRotatef(180, 0, -1, 0);
+	glTranslatef(-1, 0, 0);
+	drawUnitFace();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, -1);
+	glRotatef(270, 0, 1, 0);
+	drawUnitFace();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, -1);
+	glRotatef(90, 1, 0, 0);
+	drawUnitFace();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 1, -1);
+	glRotatef(90, 1, 0, 0);
+	drawUnitFace();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 1, 0);
+	glRotatef(270, 1, 0, 0);
+	drawUnitFace();
+	glPopMatrix();
+
+	/*
 	// Placing it correctly.
 	glTranslatef(0, 1, 1);
 	// Resetting rotations.
@@ -208,7 +241,7 @@ void drawUnitCube()
 	//the top of a stack.
 	//glPopMatrix pops the top matrix on the stack
 
-	glPopMatrix();
+	glPopMatrix();*/
 
 	//reset to previous state
 	glPopAttrib();
