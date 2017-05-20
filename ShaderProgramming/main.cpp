@@ -23,6 +23,11 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+using namespace std;
 
 // Configuration
 const int WIDTH = 800;
@@ -168,6 +173,11 @@ int main() {
 
 	std::vector<Vertex> vertices;
 
+	float scaleFactor = 1;
+	float offsetX = 0;
+	float offsetY = 0;
+	float offsetZ = 0;
+
 	// Read triangle vertices from OBJ file
 	for (const auto& shape : shapes) {
 		for (const auto& index : shape.mesh.indices) {
@@ -175,9 +185,9 @@ int main() {
 
 			// Retrieve coordinates for vertex by index
 			vertex.pos = {
-				attrib.vertices[3 * index.vertex_index + 0],
-				attrib.vertices[3 * index.vertex_index + 1],
-				attrib.vertices[3 * index.vertex_index + 2]
+				attrib.vertices[3 * index.vertex_index + 0] * scaleFactor + offsetX,
+				attrib.vertices[3 * index.vertex_index + 1] * scaleFactor + offsetY,
+				attrib.vertices[3 * index.vertex_index + 2] * scaleFactor + offsetZ
 			};
 
 			// Retrieve components of normal by index
